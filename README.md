@@ -2,7 +2,7 @@
 
 Here is test project with REST API for money transfers between accounts.
 
-There are two entities — `Account` and `Transaction`. API is resource-oriented, so in order to transfer money between accounts Client should create a `Transaction` via REST API.
+There are two entity classes — `Account` and `Transaction`. API is resource-oriented, so in order to transfer money between accounts Client should create a `Transaction` via REST API.
 
 ### Project Structure
 
