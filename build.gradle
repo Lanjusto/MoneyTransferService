@@ -1,0 +1,70 @@
+subprojects {
+    apply plugin: 'java'
+    group = 'com.github.lanjusto.moneytransferservice'
+    version = '0.1'
+    compileJava.options.encoding = 'UTF-8'
+    compileTestJava.options.encoding = 'UTF-8'
+
+    tasks.withType(JavaCompile) {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
+    }
+
+    repositories {
+        mavenCentral()
+        maven {
+            url "http://maven.restlet.com"
+        }
+    }
+
+    //noinspection GroovyAssignabilityCheck
+    sourceSets {
+        main {
+            output.resourcesDir = "build/classes/main"
+        }
+    }
+
+    dependencies {
+        // common, utils, etc
+        compile group: 'com.intellij', name: 'annotations', version: '5.1'
+        compile group: 'org.assertj', name: 'assertj-core', version: '3.5.1'
+
+        // DI
+        compile group: 'org.jboss.weld.se', name: 'weld-se-core', version: '2.3.5.Final'
+
+        // logging
+        def slf4jVersion = '1.7.21'
+        compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.0.13'
+        compile group: 'org.slf4j', name: 'slf4j-api', version: slf4jVersion
+        compile group: 'org.slf4j', name: 'jul-to-slf4j', version: slf4jVersion
+
+        // REST API
+        def restletVersion = '2.3.7'
+        compile group: 'org.restlet.jse', name: 'org.restlet', version: restletVersion
+        compile group: 'org.restlet.jse', name: 'org.restlet.ext.jackson', version: restletVersion
+
+        // testing
+        testCompile group: 'junit', name: 'junit', version: '4.12'
+    }
+}
+
+project(':api') {
+    apply plugin: 'application'
+    mainClassName = 'com.github.lanjusto.moneytransferservice.api.Application'
+
+    dependencies {
+        compile project(':core')
+    }
+}
+
+project(':core') {
+    dependencies {
+        compile project(':model')
+    }
+}
+
+project(':client') {
+    dependencies {
+        compile project(':api')
+    }
+}
